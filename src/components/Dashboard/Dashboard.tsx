@@ -207,25 +207,25 @@ export function Dashboard() {
 
   const statCards = [
     {
-      title: t('total_revenue') || 'Total Revenue',
+      title:  'Total Revenue',
       value: `₹${stats.totalRevenue.toLocaleString()}`,
       icon: TrendingUp,
       color: 'text-green-600 bg-green-100',
     },
     {
-      title: t('total_invoices') || 'Total Invoices',
+      title: 'Total Invoices',
       value: stats.totalInvoices.toString(),
       icon: FileText,
       color: 'text-blue-600 bg-blue-100',
     },
     {
-      title: t('pending_payments') || 'Pending Payments',
+      title: 'Pending Payments',
       value: `₹${stats.pendingPayments.toLocaleString()}`,
       icon: Clock,
       color: 'text-yellow-600 bg-yellow-100',
     },
     {
-      title: t('overdue_invoices') || 'Overdue Invoices',
+      title: 'Overdue Invoices',
       value: stats.overdueInvoices.toString(),
       icon: AlertCircle,
       color: 'text-red-600 bg-red-100',
@@ -237,7 +237,7 @@ export function Dashboard() {
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{t('Management Console')}</h1>
+          <h1 className="text-2xl font-bold text-gray-700">{t('Management Console')}</h1>
           <p className="text-gray-600">Welcome to your invoice management dashboard</p>
         </div>
         <div className="flex items-center gap-3">
@@ -267,7 +267,7 @@ export function Dashboard() {
           >
             <div>
               <p className="text-sm font-medium text-gray-600">{stat.title}</p>
-              <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+              <p className="text-xl font-bold text-gray-600">{stat.value}</p>
             </div>
             <div className={`p-3 rounded-lg ${stat.color}`}>
               <stat.icon className="w-6 h-6" />

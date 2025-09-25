@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { FileText, Download, Mail, CheckCircle} from "lucide-react";
+import { FileText, Download, Mail, CheckCircle } from "lucide-react";
 
 type Invoice = {
   number: string;
@@ -164,16 +164,19 @@ export function Invoices() {
           <div className="flex gap-2">
             <input
               type="text"
-              placeholder="Search by customer..."
-              className="px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500"
+              placeholder="🔍 Search customers..."
+              className="w-100% max-w-sm px-4 py-2.5 text-sm text-gray-700 placeholder-gray-400 border border-gray-300 rounded-xl shadow-sm 
+             focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 transition"
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
                 setPage(1);
               }}
             />
+
             <select
-              className="px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500"
+              className="w-full max-w-xs px-4 py-2.5 text-sm text-gray-700 bg-white border border-gray-300 rounded-xl shadow-sm 
+             focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 transition"
               value={filterStatus}
               onChange={(e) => {
                 setFilterStatus(e.target.value as FilterStatus);
@@ -181,14 +184,16 @@ export function Invoices() {
               }}
             >
               {(["All", "Paid", "Overdue", "Pending"] as FilterStatus[]).map((s) => (
-                <option key={s} value={s}>
+                <option key={s} value={s} className="text-gray-700">
                   {s}
                 </option>
               ))}
             </select>
 
+
             <select
-              className="px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500"
+              className="w-full max-w-xs px-4 py-2.5 text-sm text-gray-700 bg-white border border-gray-300 rounded-xl shadow-sm 
+             focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 transition"
               value={filterSector}
               onChange={(e) => {
                 setFilterSector(e.target.value as "All" | string);
@@ -196,11 +201,12 @@ export function Invoices() {
               }}
             >
               {sectors.map((s) => (
-                <option key={s} value={s}>
+                <option key={s} value={s} className="text-gray-700">
                   {s}
                 </option>
               ))}
             </select>
+
           </div>
 
           <div className="flex items-center gap-2">
@@ -388,4 +394,3 @@ export function Invoices() {
   );
 }
 
-  

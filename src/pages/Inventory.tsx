@@ -243,6 +243,7 @@ export function Inventory() {
                     <button className="text-sm px-3 py-2 rounded-lg bg-violet-600 text-white hover:bg-violet-700">Create reorder</button>
                   </div>
                 </div>
+                
               </motion.div>
             </motion.div>
           )}
