@@ -259,46 +259,52 @@ export function Dashboard() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-start justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 mb-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-700">{t('Management Console')}</h1>
-          <p className="text-gray-600">Welcome to your invoice management dashboard</p>
+          <h1 className="text-xl font-semibold text-gray-800">{t('Management Console')}</h1>
+          <p className="text-gray-500 text-sm mt-1">Welcome to your invoice management dashboard</p>
         </div>
-        <div className="flex items-center gap-3">
+
+        <div className="flex items-center gap-2">
           <button
             aria-label="Refresh dashboard"
             onClick={loadDashboardData}
-            className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-white border text-sm shadow-sm hover:shadow"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-white border text-xs font-medium shadow-sm hover:shadow transition"
           >
-            <RefreshCw className="w-4 h-4" /> Refresh
+            <RefreshCw className="w-3.5 h-3.5 text-gray-700" /> Refresh
           </button>
+
           <button
             aria-label="Export dashboard CSV"
             onClick={exportCSV}
-            className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-white border text-sm shadow-sm hover:shadow"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-white border text-xs font-medium shadow-sm hover:shadow transition"
           >
-            <Zap className="w-4 h-4" /> Export
+            <Zap className="w-3.5 h-3.5 text-gray-700" /> Export
           </button>
         </div>
       </div>
 
+
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {statCards.map((stat, index) => (
           <div
             key={index}
-            className="bg-white rounded-lg shadow-sm p-6 border border-gray-200 flex justify-between items-center"
+            className="bg-white rounded-xl shadow-md p-4 border border-gray-100 flex justify-between items-center hover:shadow-lg transition-all"
           >
             <div>
-              <p className="text-sm font-medium text-gray-600">{stat.title}</p>
-              <p className="text-xl font-bold text-gray-600">{stat.value}</p>
+              <p className="text-xs font-medium text-gray-500">{stat.title}</p>
+              <p className="text-lg font-semibold text-gray-800 mt-1">{stat.value}</p>
             </div>
-            <div className={`p-3 rounded-lg ${stat.color}`}>
-              <stat.icon className="w-6 h-6" />
+            <div
+              className={`p-2 rounded-lg flex items-center justify-center ${stat.color} bg-opacity-10`}
+            >
+              <stat.icon className="w-5 h-5 text-opacity-90 text-current" />
             </div>
           </div>
         ))}
       </div>
+
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -378,45 +384,43 @@ export function Dashboard() {
 
       {/* AI Insights */}
       {insights.length > 0 && (
-  <div className="bg-white rounded-2xl shadow-md border border-violet-200 transition hover:shadow-lg">
-    {/* Header */}
-    <div className="p-6 border-b border-violet-100 flex items-center gap-3">
-      <Activity className="w-6 h-6 text-violet-600" />
-      <h2 className="text-lg font-semibold text-slate-900">AI Insights</h2>
-      <span className="ml-auto text-xs px-2 py-1 rounded-full bg-violet-50 text-violet-700 font-medium">
-        Updated just now
-      </span>
-    </div>
-
-    {/* Insights list */}
-    <div className="p-6 space-y-4">
-      {insights.map((insight) => (
-        <div
-          key={insight.id}
-          className={`flex items-start gap-4 p-4 rounded-xl border-l-4 transition hover:shadow-sm ${
-            insight.type === "warn"
-              ? "bg-yellow-50 border-yellow-400"
-              : "bg-white border-violet-400"
-          }`}
-        >
-          {/* Badge Icon */}
-          <div
-            className={`mt-1 flex h-10 w-10 items-center justify-center rounded-xl ${
-              insight.type === "warn"
-                ? "bg-yellow-100 text-yellow-700"
-                : "bg-violet-100 text-violet-700"
-            }`}
-          >
-            <Activity className="w-5 h-5" />
+        <div className="bg-white rounded-2xl shadow-md border border-violet-200 transition hover:shadow-lg">
+          {/* Header */}
+          <div className="p-6 border-b border-violet-100 flex items-center gap-3">
+            <Activity className="w-6 h-6 text-violet-600" />
+            <h2 className="text-lg font-semibold text-slate-900">AI Insights</h2>
+            <span className="ml-auto text-xs px-2 py-1 rounded-full bg-violet-50 text-violet-700 font-medium">
+              Updated just now
+            </span>
           </div>
 
-          {/* Message */}
-          <p className="text-sm leading-relaxed text-slate-800">{insight.message}</p>
+          {/* Insights list */}
+          <div className="p-6 space-y-4">
+            {insights.map((insight) => (
+              <div
+                key={insight.id}
+                className={`flex items-start gap-4 p-4 rounded-xl border-l-4 transition hover:shadow-sm ${insight.type === "warn"
+                    ? "bg-yellow-50 border-yellow-400"
+                    : "bg-white border-violet-400"
+                  }`}
+              >
+                {/* Badge Icon */}
+                <div
+                  className={`mt-1 flex h-10 w-10 items-center justify-center rounded-xl ${insight.type === "warn"
+                      ? "bg-yellow-100 text-yellow-700"
+                      : "bg-violet-100 text-violet-700"
+                    }`}
+                >
+                  <Activity className="w-5 h-5" />
+                </div>
+
+                {/* Message */}
+                <p className="text-sm leading-relaxed text-slate-800">{insight.message}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      ))}
-    </div>
-  </div>
-)}
+      )}
 
 
       {/* Recent Activity */}

@@ -1,9 +1,17 @@
 import { useState } from "react";
-import { Box, TrendingUp, AlertCircle, Package, X, Bot } from "lucide-react";
+import { Box, TrendingUp, AlertCircle, Package, X, Bot, RefreshCw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function Inventory() {
   const [insightsOpen, setInsightsOpen] = useState(false);
+
+  const handleRefreshInsights = () => {
+    // Simulate refresh — replace this with actual data fetching later
+    console.log("Insights refreshed!");
+
+    // If you have a state for insights, you can refresh like:
+    // setInsights([...newInsights])
+  };
 
   const demoInventory = [
     { product: "Wireless Mouse", stock: 120, sales: 85 },
@@ -29,41 +37,47 @@ export function Inventory() {
   return (
     <div className="p-6 space-y-8 bg-gray-50 min-h-screen">
       {/* Page Header */}
-      <div>
-        <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
+      <div className="space-y-1">
+        <h2 className="text-xl font-semibold text-gray-900">
           Inventory Performance Hub
         </h2>
-        <p className="text-gray-600 mt-1">
-          Track stock levels, sales performance & AI-powered insights.
+        <p className="text-sm text-gray-600">
+          Monitor stock levels, sales performance & AI-driven insights.
         </p>
       </div>
 
+
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-gradient-to-b from-violet-50 to-white p-4 rounded-lg shadow-sm border border-violet-200 flex flex-col items-center">
-          <Box className="w-6 h-6 text-violet-600 mb-1" />
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+        {/* Total Products */}
+        <div className="bg-white p-3 rounded-xl shadow-sm border border-violet-200 flex flex-col items-center">
+          <Box className="w-5 h-5 text-violet-600 mb-1" />
           <p className="text-xs font-medium text-gray-500">Total Products</p>
-          <h3 className="text-xl font-semibold text-gray-900 mt-1">{demoInventory.length}</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mt-1">{demoInventory.length}</h3>
         </div>
 
-        <div className="bg-gradient-to-b from-yellow-50 to-white p-4 rounded-lg shadow-sm border border-yellow-200 flex flex-col items-center">
-          <AlertCircle className="w-6 h-6 text-yellow-600 mb-1" />
+        {/* Low Stock Items */}
+        <div className="bg-white p-3 rounded-xl shadow-sm border border-violet-200 flex flex-col items-center">
+          <AlertCircle className="w-5 h-5 text-violet-600 mb-1" />
           <p className="text-xs font-medium text-gray-500">Low Stock Items</p>
-          <h3 className="text-xl font-semibold text-yellow-700 mt-1">{lowStockCount}</h3>
+          <h3 className="text-lg font-semibold text-violet-700 mt-1">{lowStockCount}</h3>
         </div>
 
-        <div className="bg-gradient-to-b from-red-50 to-white p-4 rounded-lg shadow-sm border border-red-200 flex flex-col items-center">
-          <AlertCircle className="w-6 h-6 text-red-600 mb-1" />
+        {/* Out of Stock */}
+        <div className="bg-white p-3 rounded-xl shadow-sm border border-violet-200 flex flex-col items-center">
+          <AlertCircle className="w-5 h-5 text-violet-600 mb-1" />
           <p className="text-xs font-medium text-gray-500">Out of Stock</p>
-          <h3 className="text-xl font-semibold text-red-600 mt-1">{outOfStockCount}</h3>
+          <h3 className="text-lg font-semibold text-violet-700 mt-1">{outOfStockCount}</h3>
         </div>
 
-        <div className="bg-gradient-to-b from-green-50 to-white p-4 rounded-lg shadow-sm border border-green-200 flex flex-col items-center">
-          <TrendingUp className="w-6 h-6 text-green-600 mb-1" />
+        {/* Top Seller */}
+        <div className="bg-white p-3 rounded-xl shadow-sm border border-violet-200 flex flex-col items-center">
+          <TrendingUp className="w-5 h-5 text-violet-600 mb-1" />
           <p className="text-xs font-medium text-gray-500">Top Seller</p>
-          <h3 className="text-base font-semibold text-green-700 mt-1">{topSeller}</h3>
+          <h3 className="text-lg font-semibold text-violet-700 mt-1">{topSeller}</h3>
         </div>
       </div>
+
 
 
       {/* Search & Actions */}
@@ -136,14 +150,14 @@ export function Inventory() {
           tabIndex={0}
           onClick={() => setInsightsOpen(true)}
           onKeyDown={(e) => e.key === "Enter" && setInsightsOpen(true)}
-          className="cursor-pointer bg-gradient-to-r from-violet-50 to-violet-100 p-6 rounded-xl shadow border border-violet-200"
+          className="cursor-pointer bg-gradient-to-r from-violet-50 to-violet-100 p-4 rounded-xl shadow border border-violet-200"
           aria-haspopup="dialog"
           aria-expanded={insightsOpen}
         >
-          <div className="flex items-center justify-between">
+          <div className="flex items-start justify-between">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">AI Inventory Insights</h3>
-              <ul className="list-disc pl-6 text-gray-700 space-y-1">
+              <h3 className="text-base font-semibold text-gray-900 mb-1">AI Inventory Insights</h3>
+              <ul className="list-disc pl-5 text-gray-700 text-sm space-y-1">
                 <li>Wireless Mouse is your <strong>best seller</strong> (85 units sold this month).</li>
                 <li>Mechanical Keyboard is <strong>out of stock</strong> → reorder suggested.</li>
                 <li>Laptop Stand stock is low (15 left) → reorder 50 units.</li>
@@ -151,25 +165,22 @@ export function Inventory() {
               </ul>
             </div>
 
-            <div className="flex-shrink-0 ml-4 relative group">
+            <div className="flex-shrink-0 ml-3 relative group">
               <button
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
                   setInsightsOpen(true);
                 }}
-                className="relative inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-700
-             border-2 border-transparent bg-gradient-to-r from-white via-violet-200 to-white
-             bg-[length:200%_200%] bg-clip-border
-             animate-gradient-move shadow-md overflow-hidden border-violet-600"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-gray-700
+          border-2 border-transparent bg-gradient-to-r from-white via-violet-200 to-white
+          bg-[length:200%_200%] bg-clip-border
+          animate-gradient-move shadow-sm overflow-hidden border-violet-600"
               >
-                <Bot className="w-4 h-4 text-violet-600" />
+                <Bot className="w-3.5 h-3.5 text-violet-600" />
                 AI Insights
               </button>
-
             </div>
-
-
           </div>
         </div>
 
@@ -182,7 +193,10 @@ export function Inventory() {
               exit={{ opacity: 0 }}
               className="fixed inset-0 z-50 flex items-center justify-center px-4"
             >
-              <div className="absolute inset-0 bg-black/40" onClick={() => setInsightsOpen(false)} />
+              <div
+                className="absolute inset-0 bg-black/40"
+                onClick={() => setInsightsOpen(false)}
+              />
 
               <motion.div
                 initial={{ y: 20, opacity: 0 }}
@@ -193,6 +207,7 @@ export function Inventory() {
                 aria-modal="true"
                 aria-labelledby="insights-title"
               >
+                {/* Header */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Package className="w-5 h-5 text-gray-600" />
@@ -210,9 +225,13 @@ export function Inventory() {
                   </button>
                 </div>
 
+                {/* Insights List */}
                 <div className="mt-4 grid gap-4">
                   {insights.map((item) => (
-                    <div key={item.id} className="flex items-center justify-between p-4 rounded-lg border border-gray-100 bg-gray-50">
+                    <div
+                      key={item.id}
+                      className="flex items-center justify-between p-4 rounded-lg border border-gray-100 bg-gray-50"
+                    >
                       <div>
                         <div className="text-sm font-medium text-gray-900">{item.title}</div>
                         <div className="text-xs text-gray-600 mt-1">{item.detail}</div>
@@ -236,18 +255,33 @@ export function Inventory() {
                   ))}
                 </div>
 
+                {/* Footer */}
                 <div className="mt-6 border-t pt-4 flex items-center justify-between">
-                  <div className="text-sm text-gray-600">Last updated: Sep 16, 2025</div>
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <span>Last updated: Sep 16, 2025</span>
+                    <button
+                      onClick={handleRefreshInsights}
+                      className="p-1.5 rounded-full hover:bg-gray-100 text-gray-600 hover:text-gray-800 transition"
+                      title="Refresh Insights"
+                    >
+                      <RefreshCw className="w-4 h-4" />
+                    </button>
+                  </div>
+
                   <div className="flex items-center gap-3">
-                    <button className="text-sm px-3 py-2 rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50">Export</button>
-                    <button className="text-sm px-3 py-2 rounded-lg bg-violet-600 text-white hover:bg-violet-700">Create reorder</button>
+                    <button className="text-sm px-3 py-2 rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50">
+                      Export
+                    </button>
+                    <button className="text-sm px-3 py-2 rounded-lg bg-violet-600 text-white hover:bg-violet-700">
+                      Create reorder
+                    </button>
                   </div>
                 </div>
-                
               </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
+
       </div>
     </div>
   );

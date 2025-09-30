@@ -27,13 +27,13 @@ export function Reports() {
     <div className="p-6 space-y-6">
       {/* Page Header */}
       {/* Page Header */}
-      <div className="mb-6">
-        <h2 className="text-3xl font-extrabold text-gray-900 flex items-center gap-3">
-          <BarChartIcon className="w-8 h-8 text-violet-600" />
+      <div className="mb-4">
+        <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+          <BarChartIcon className="w-5 h-5 text-violet-600" />
           <span>Reports</span>
         </h2>
-        <p className="text-gray-600 mt-2 text-base leading-relaxed">
-          Comprehensive financial analytics and real-time business insights, all in one place.
+        <p className="text-sm text-gray-600 mt-1">
+          Comprehensive financial analytics and real-time business insights.
         </p>
       </div>
 

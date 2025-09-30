@@ -157,32 +157,32 @@ export function Customers() {
     const ai = getAIInsights(selectedCustomer.id);
 
     return (
-      <div className="p-6 min-h-screen bg-gray-50 text-gray-900">
+      <div className="p-4 min-h-screen bg-gray-50 text-gray-800 text-sm">
         {/* Back Button */}
         <button
-          className="flex items-center gap-2 text-violet-600 hover:text-violet-800 mb-6"
+          className="flex items-center gap-1 text-violet-600 hover:text-violet-800 mb-4 text-xs"
           onClick={() => setSelectedCustomer(null)}
         >
-          <ArrowLeft className="w-4 h-4" /> Back to Customers
+          <ArrowLeft className="w-3 h-3" /> Back
         </button>
 
         {/* Profile */}
-        <div className="bg-white rounded-lg shadow p-6 mb-6">
-          <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-violet-100">
-              <User className="w-7 h-7 text-violet-600" />
+        <div className="bg-white rounded-md shadow p-4 mb-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-violet-100">
+              <User className="w-5 h-5 text-violet-600" />
             </div>
             <div>
-              <h2 className="text-xl font-bold">{selectedCustomer.name}</h2>
-              <p className="text-gray-600">{selectedCustomer.email}</p>
-              <p className="text-sm text-gray-500">{selectedCustomer.sector}</p>
+              <h2 className="text-base font-semibold">{selectedCustomer.name}</h2>
+              <p className="text-xs text-gray-600">{selectedCustomer.email}</p>
+              <p className="text-xs text-gray-500">{selectedCustomer.sector}</p>
             </div>
           </div>
-          <div className="flex gap-2 mt-3">
+          <div className="flex gap-1 mt-2 flex-wrap">
             {selectedCustomer.tags.map((tag, i) => (
               <span
                 key={i}
-                className="px-2 py-1 bg-violet-100 text-violet-700 rounded-full text-xs font-medium"
+                className="px-2 py-0.5 bg-violet-100 text-violet-700 rounded-full text-[10px] font-medium"
               >
                 {tag}
               </span>
@@ -191,52 +191,50 @@ export function Customers() {
         </div>
 
         {/* AI Insights */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
           {/* Customer Health */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-green-600" /> Customer Health
+          <div className="bg-white rounded-md shadow p-4">
+            <h3 className="text-sm font-semibold mb-2 flex items-center gap-1">
+              <TrendingUp className="w-4 h-4 text-green-600" /> Customer Health
             </h3>
-            <div className="w-full bg-gray-200 rounded-full h-3">
+            <div className="w-full bg-gray-200 rounded-full h-2">
               <div
-                className={`${health.color} h-3 rounded-full`}
+                className={`${health.color} h-2 rounded-full`}
                 style={{ width: `${health.score}%` }}
               ></div>
             </div>
-            <p className="mt-2 text-sm font-medium">{health.label} ({health.score}%)</p>
+            <p className="mt-1 text-xs">{health.label} ({health.score}%)</p>
           </div>
 
           {/* Churn Risk */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-              <AlertCircle className="w-5 h-5 text-red-600" /> Churn Risk
+          <div className="bg-white rounded-md shadow p-4">
+            <h3 className="text-sm font-semibold mb-2 flex items-center gap-1">
+              <AlertCircle className="w-4 h-4 text-red-600" /> Churn Risk
             </h3>
-            <p className="text-sm text-gray-600 mb-2">Predicted probability of churn</p>
-            <div className="w-full bg-gray-200 rounded-full h-3">
+            <p className="text-xs text-gray-600 mb-1">Predicted probability of churn</p>
+            <div className="w-full bg-gray-200 rounded-full h-2">
               <div
-                className={`${
-                  ai.churnRisk > 50 ? "bg-red-500" : "bg-green-500"
-                } h-3 rounded-full`}
+                className={`${ai.churnRisk > 50 ? "bg-red-500" : "bg-green-500"} h-2 rounded-full`}
                 style={{ width: `${ai.churnRisk}%` }}
               ></div>
             </div>
-            <p className="mt-2 text-sm font-medium">{ai.churnRisk}% risk</p>
+            <p className="mt-1 text-xs">{ai.churnRisk}% risk</p>
           </div>
 
           {/* Next Purchase Prediction */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-violet-600" /> Next Purchase
+          <div className="bg-white rounded-md shadow p-4">
+            <h3 className="text-sm font-semibold mb-2 flex items-center gap-1">
+              <Calendar className="w-4 h-4 text-violet-600" /> Next Purchase
             </h3>
-            <p className="text-gray-700 text-sm">{ai.nextPurchase}</p>
+            <p className="text-xs text-gray-700">{ai.nextPurchase}</p>
           </div>
 
           {/* Engagement Breakdown */}
-          <div className="bg-white rounded-lg shadow p-6 col-span-2">
-            <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-              <Activity className="w-5 h-5 text-blue-600" /> Engagement Breakdown
+          <div className="bg-white rounded-md shadow p-4 col-span-2">
+            <h3 className="text-sm font-semibold mb-2 flex items-center gap-1">
+              <Activity className="w-4 h-4 text-blue-600" /> Engagement Breakdown
             </h3>
-            <ul className="space-y-2 text-sm text-gray-600">
+            <ul className="space-y-1 text-xs text-gray-600">
               <li>Email interactions: <span className="font-semibold">{ai.engagement.email}</span></li>
               <li>Purchases: <span className="font-semibold">{ai.engagement.purchases}</span></li>
               <li>Support tickets: <span className="font-semibold">{ai.engagement.support}</span></li>
@@ -244,24 +242,24 @@ export function Customers() {
           </div>
 
           {/* Recommendations */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-              <CheckCircle className="w-5 h-5 text-green-600" /> Recommended Actions
+          <div className="bg-white rounded-md shadow p-4">
+            <h3 className="text-sm font-semibold mb-2 flex items-center gap-1">
+              <CheckCircle className="w-4 h-4 text-green-600" /> Recommended Actions
             </h3>
-            <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
+            <ul className="list-disc list-inside text-xs text-gray-600 space-y-0.5">
               {ai.actions.map((a, i) => (
                 <li key={i}>{a}</li>
               ))}
             </ul>
-            <p className="mt-3 text-xs text-gray-400">AI Confidence: {ai.confidence}%</p>
+            <p className="mt-2 text-[10px] text-gray-400">AI Confidence: {ai.confidence}%</p>
           </div>
         </div>
 
         {/* Transactions */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-lg font-semibold mb-4">Transaction History</h3>
+        <div className="bg-white rounded-md shadow p-4">
+          <h3 className="text-sm font-semibold mb-2">Transaction History</h3>
           {transactions.length > 0 ? (
-            <table className="w-full text-sm border-collapse">
+            <table className="w-full text-xs border-collapse">
               <thead>
                 <tr className="text-left bg-gray-100">
                   <th className="p-2">Date</th>
@@ -276,7 +274,7 @@ export function Customers() {
                     <td className="p-2">₹{tx.amount.toLocaleString()}</td>
                     <td className="p-2">
                       <span
-                        className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${
                           tx.status === "Paid"
                             ? "bg-green-100 text-green-700"
                             : tx.status === "Pending"
@@ -292,7 +290,7 @@ export function Customers() {
               </tbody>
             </table>
           ) : (
-            <p className="text-gray-500">No transactions found.</p>
+            <p className="text-gray-500 text-xs">No transactions found.</p>
           )}
         </div>
       </div>
@@ -302,29 +300,32 @@ export function Customers() {
   // Main Customer List
   return (
     <div className="p-6 min-h-screen bg-gray-50 text-gray-900">
-      <h2 className="text-2xl font-bold mb-6">Customers</h2>
-      <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <h2 className="text-2xl font-semibold text-gray-800 tracking-tight mb-6">
+  Customers
+</h2>
+
+      <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {demoCustomers.map((cust) => (
           <div
             key={cust.id}
-            className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 hover:shadow-md transition cursor-pointer"
+            className="bg-white border border-gray-200 rounded-lg shadow-sm p-3 hover:shadow-md transition cursor-pointer"
             onClick={() => setSelectedCustomer(cust)}
           >
-            <div className="flex items-center gap-3 mb-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-violet-100">
-                <User className="w-5 h-5 text-violet-600" />
+            <div className="flex items-center gap-2 mb-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-violet-100">
+                <User className="w-4 h-4 text-violet-600" />
               </div>
               <div>
-                <p className="text-lg font-semibold">{cust.name}</p>
-                <p className="text-sm text-gray-500">{cust.sector}</p>
+                <p className="text-base font-semibold">{cust.name}</p>
+                <p className="text-xs text-gray-500">{cust.sector}</p>
               </div>
             </div>
-            <p className="text-sm text-gray-600">{cust.email}</p>
-            <div className="flex flex-wrap gap-2 mt-3">
+            <p className="text-xs text-gray-600">{cust.email}</p>
+            <div className="flex flex-wrap gap-1 mt-2">
               {cust.tags.map((tag, i) => (
                 <span
                   key={i}
-                  className="px-2 py-1 bg-violet-100 text-violet-700 rounded-full text-xs font-medium"
+                  className="px-2 py-0.5 bg-violet-100 text-violet-700 rounded-full text-[10px] font-medium"
                 >
                   {tag}
                 </span>
@@ -335,4 +336,5 @@ export function Customers() {
       </div>
     </div>
   );
+  
 }

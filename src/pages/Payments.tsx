@@ -268,48 +268,56 @@ export function Payments() {
         {filtered.map((p) => (
           <article
             key={p.invoice + (p.date ?? "")}
-            className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition flex flex-col justify-between"
+            className={`bg-white border border-gray-200 rounded-xl p-4 hover:shadow-lg transition flex flex-col justify-between cursor-pointer ${selectedInvoice === p.invoice ? "ring-2 ring-violet-300" : ""
+              }`}
             onClick={() => setSelectedInvoice(p.invoice)}
             role="button"
             tabIndex={0}
             aria-pressed={selectedInvoice === p.invoice}
           >
-            <div className="flex items-center justify-between mb-3">
-              <div className="text-sm text-gray-500">Invoice</div>
+            {/* Invoice Number */}
+            <div className="flex items-center justify-between mb-2">
+              <div className="text-xs text-gray-500 uppercase tracking-wide">Invoice</div>
               <div className="text-sm font-medium text-gray-700">{p.invoice}</div>
             </div>
 
-            <div className="flex items-center justify-between mb-3">
-              <div className="text-sm text-gray-500">Method</div>
+            {/* Payment Method */}
+            <div className="flex items-center justify-between mb-2">
+              <div className="text-xs text-gray-500 uppercase tracking-wide">Method</div>
               <div className="flex items-center gap-2 text-sm font-medium text-violet-700">
-                <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-violet-50 text-violet-600">
+                <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-violet-50 text-violet-600">
                   {methodIcon(p.method)}
                 </span>
                 <span>{p.method}</span>
               </div>
             </div>
 
+            {/* Amount & Status */}
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-sm text-gray-500">Amount</div>
+                <div className="text-xs text-gray-500 uppercase tracking-wide">Amount</div>
                 <div className="text-lg font-semibold text-gray-900">₹{p.amount.toLocaleString()}</div>
               </div>
 
               <div className="text-right">
-                <div className={`text-xs px-2 py-1 rounded-full ${p.reconciled ? "bg-green-100 text-green-800" : "bg-yellow-50 text-yellow-800"}`}>
+                <div
+                  className={`text-xs px-2 py-1 rounded-full font-medium ${p.reconciled ? "bg-green-100 text-green-800" : "bg-yellow-50 text-yellow-800"
+                    }`}
+                >
                   {p.reconciled ? "Reconciled" : "Unreconciled"}
                 </div>
-                <div className="text-xs text-gray-500 mt-2">{p.date ?? "—"}</div>
+                <div className="text-xs text-gray-400 mt-1">{p.date ?? "—"}</div>
               </div>
             </div>
 
-            <div className="mt-4 flex items-center gap-2">
+            {/* Actions */}
+            <div className="mt-3 flex justify-end gap-2">
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   markReconciled(p.invoice);
                 }}
-                className="px-3 py-2 rounded-md bg-white border text-sm hover:bg-gray-50"
+                className="px-3 py-1 rounded-md bg-white border border-gray-300 text-xs font-medium text-gray-700 hover:bg-gray-50 shadow-sm transition"
               >
                 Mark Reconciled
               </button>
@@ -319,14 +327,16 @@ export function Payments() {
                   e.stopPropagation();
                   alert(`Open receipt for ${p.invoice} (demo)`);
                 }}
-                className="px-3 py-2 rounded-md bg-violet-600 text-white text-sm hover:bg-violet-700"
+                className="px-3 py-1 rounded-md bg-violet-600 text-white text-xs font-medium hover:bg-violet-700 shadow-sm transition"
               >
                 View Receipt
               </button>
             </div>
+
           </article>
         ))}
       </div>
+
 
       {/* Selected detail panel (simple inline modal/demo) */}
       {selectedInvoice && (

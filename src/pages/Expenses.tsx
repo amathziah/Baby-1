@@ -13,7 +13,7 @@ import {
 
 import { useState } from "react";
 
-import { MoreVertical, ChevronDown, Download, X, Cpu } from "lucide-react";
+import { MoreVertical, ChevronDown, Download, X, Cpu, RefreshCw } from "lucide-react";
 
 type ExpenseItem = { category: string; amount: number };
 
@@ -61,23 +61,30 @@ export function Expenses({
     URL.revokeObjectURL(url);
   };
 
+  const handleRefreshInsights = () => {
+    // Replace this with your logic to re-fetch or recalculate insights
+    console.log("Refreshing AI insights...");
+    // Example: setInsights(fetchNewInsights());
+  };
+
   return (
     <div className="p-6 space-y-8">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <div className="space-y-1">
-          <h2 className="text-4xl font-semibold tracking-tight text-gray-900">
-            💸 Expenses
-          </h2>
+      <div className="space-y-1">
+  <h2 className="text-3xl font-semibold tracking-tight text-gray-600">
+    Expenses
+  </h2>
 
-          <p className="text-base text-gray-500">
-            Track and manage your business expenses with{" "}
-            <span className="font-medium text-gray-700">
-              AI-powered insights
-            </span>
-            .
-          </p>
-        </div>
+  <p className="text-sm text-gray-500">
+    Track and manage your business expenses with{" "}
+    <span className="font-medium text-gray-700">
+      AI-powered insights
+    </span>
+    .
+  </p>
+</div>
+
 
         <div className="flex items-center gap-2">
           <button className="flex items-center gap-1 text-sm px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-md hover:bg-gray-100">
@@ -103,31 +110,32 @@ export function Expenses({
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white p-4 rounded-xl shadow-sm border hover:shadow-md transition">
-          <p className="text-sm text-gray-500">Total Expenses (This Month)</p>
-          <h3 className="text-2xl font-bold text-red-600">
+        <div className="bg-white p-3 rounded-xl shadow-sm border hover:shadow-md transition">
+          <p className="text-xs text-gray-500">Total Expenses (This Month)</p>
+          <h3 className="text-xl font-semibold text-red-600 mt-1">
             {currency(totalExpenses)}
           </h3>
         </div>
 
-        <div className="bg-white p-4 rounded-xl shadow-sm border hover:shadow-md transition">
-          <p className="text-sm text-gray-500">Highest Expense</p>
-          <h3 className="text-lg font-bold text-gray-900">
+        <div className="bg-white p-3 rounded-xl shadow-sm border hover:shadow-md transition">
+          <p className="text-xs text-gray-500">Highest Expense</p>
+          <h3 className="text-sm font-semibold text-gray-900 mt-1">
             {highestExpense.category}
           </h3>
-          <p className="text-sm text-gray-600 mt-1">
+          <p className="text-xs text-gray-600 mt-1">
             {currency(highestExpense.amount)}
           </p>
         </div>
 
-        <div className="bg-white p-4 rounded-xl shadow-sm border hover:shadow-md transition">
-          <p className="text-sm text-gray-500">Recurring Expense</p>
-          <h3 className="text-lg font-bold text-gray-900">Salaries</h3>
-          <p className="text-sm text-gray-600 mt-1">
+        <div className="bg-white p-3 rounded-xl shadow-sm border hover:shadow-md transition">
+          <p className="text-xs text-gray-500">Recurring Expense</p>
+          <h3 className="text-sm font-semibold text-gray-900 mt-1">Salaries</h3>
+          <p className="text-xs text-gray-600 mt-1">
             Stable · Paid on 1st of month
           </p>
         </div>
       </div>
+
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -250,23 +258,23 @@ export function Expenses({
       </div>
       {/* AI Insights Card */}
       {/* AI Insights Card */}
-      <div className="bg-gradient-to-r from-violet-50 to-violet-100 p-6 rounded-2xl shadow-lg border border-violet-200">
+      <div className="bg-gradient-to-r from-violet-50 to-violet-100 p-5 rounded-xl shadow-md border border-violet-200">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-bold text-violet-800 flex items-center gap-2">
-            <Cpu size={20} className="text-violet-600" /> AI Expense Insights
+          <h3 className="text-base font-semibold text-violet-700 flex items-center gap-2">
+            <Cpu size={16} className="text-violet-600" /> AI Expense Insights
           </h3>
 
           {/* Only the icon triggers the modal */}
           <span
             onClick={() => setShowModal(true)}
-            className="inline-flex items-center gap-2 text-violet-700 text-sm cursor-pointer px-3 py-1 rounded-full border border-violet-300 hover:border-violet-600 hover:shadow-[0_0_10px_rgba(139,92,246,0.5)] transition-all duration-300"
+            className="inline-flex items-center gap-1.5 text-violet-700 text-xs cursor-pointer px-2.5 py-1 rounded-full border border-violet-300 hover:border-violet-500 hover:shadow-[0_0_6px_rgba(139,92,246,0.4)] transition-all duration-300"
           >
-            <Cpu size={16} className="text-violet-600" /> AI Insights
+            <Cpu size={14} className="text-violet-600" /> AI Insights
           </span>
         </div>
 
         {/* Brief insights */}
-        <ul className="list-disc pl-6 text-violet-800 mt-4 space-y-2">
+        <ul className="list-disc pl-5 text-violet-700 mt-3 space-y-1.5 text-sm leading-relaxed">
           <li>
             <strong>Salaries:</strong> form the largest recurring expense each month — consider forecasting for headcount changes.
           </li>
@@ -282,6 +290,7 @@ export function Expenses({
         </ul>
       </div>
 
+
       {/* Modal for Detailed Insights */}
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -292,49 +301,63 @@ export function Expenses({
           />
 
           {/* Modal Content */}
-          <div className="relative bg-white w-[90%] sm:w-[70%] md:w-[60%] lg:w-[50%] p-6 rounded-2xl shadow-2xl z-50 max-h-[80vh] overflow-y-auto border border-violet-200">
+          <div className="relative bg-white w-[90%] sm:w-[70%] md:w-[60%] lg:w-[50%] p-5 rounded-xl shadow-xl z-50 max-h-[80vh] overflow-y-auto border border-violet-200">
             {/* Header */}
-            <div className="flex justify-between items-center mb-6 border-b border-violet-100 pb-3">
-              <h2 className="text-2xl font-bold text-violet-800 flex items-center gap-3">
-                <Cpu size={28} className="text-violet-600" /> AI Expense Insights
+            <div className="flex justify-between items-center mb-5 border-b border-violet-100 pb-2.5">
+              <h2 className="text-lg font-semibold text-violet-700 flex items-center gap-2">
+                <Cpu size={18} className="text-violet-600" /> AI Expense Insights
               </h2>
-              <button
-                onClick={() => setShowModal(false)}
-                className="p-2 rounded-full hover:bg-violet-50 text-violet-600 hover:text-violet-800 transition"
-              >
-                <X size={24} />
-              </button>
+
+              <div className="flex items-center gap-2">
+                {/* Refresh Button */}
+                <button
+                  onClick={handleRefreshInsights}
+                  className="p-1.5 rounded-full hover:bg-violet-50 text-violet-600 hover:text-violet-800 transition"
+                  title="Refresh Insights"
+                >
+                  <RefreshCw size={16} />
+                </button>
+
+                {/* Close Button */}
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="p-1.5 rounded-full hover:bg-violet-50 text-violet-600 hover:text-violet-800 transition"
+                  title="Close"
+                >
+                  <X size={18} />
+                </button>
+              </div>
             </div>
 
             {/* Table Layout for Insights */}
             <div className="overflow-x-auto">
-              <table className="w-full table-auto border-collapse">
+              <table className="w-full table-auto border-collapse text-sm">
                 <thead>
                   <tr className="bg-violet-50 border-b border-violet-100">
-                    <th className="text-left text-violet-700 font-semibold px-4 py-2">Category</th>
-                    <th className="text-left text-violet-700 font-semibold px-4 py-2">Insight</th>
+                    <th className="text-left text-violet-700 font-medium px-3 py-2">Category</th>
+                    <th className="text-left text-violet-700 font-medium px-3 py-2">Insight</th>
                   </tr>
                 </thead>
                 <tbody className="text-violet-800">
-                  <tr className="border-b border-violet-100 hover:bg-violet-100 transition">
-                    <td className="px-4 py-2 font-medium">Salaries</td>
-                    <td className="px-4 py-2">Highest recurring expense. Forecast for hiring or attrition.</td>
+                  <tr className="border-b border-violet-100 hover:bg-violet-50 transition">
+                    <td className="px-3 py-2 font-medium">Salaries</td>
+                    <td className="px-3 py-2">Highest recurring expense. Forecast for hiring or attrition.</td>
                   </tr>
-                  <tr className="border-b border-violet-100 hover:bg-violet-100 transition">
-                    <td className="px-4 py-2 font-medium">Travel</td>
-                    <td className="px-4 py-2">Above average — implement travel approval workflow.</td>
+                  <tr className="border-b border-violet-100 hover:bg-violet-50 transition">
+                    <td className="px-3 py-2 font-medium">Travel</td>
+                    <td className="px-3 py-2">Above average — implement travel approval workflow.</td>
                   </tr>
-                  <tr className="border-b border-violet-100 hover:bg-violet-100 transition">
-                    <td className="px-4 py-2 font-medium">Rent & Utilities</td>
-                    <td className="px-4 py-2">Stable this period, no anomalies detected.</td>
+                  <tr className="border-b border-violet-100 hover:bg-violet-50 transition">
+                    <td className="px-3 py-2 font-medium">Rent & Utilities</td>
+                    <td className="px-3 py-2">Stable this period, no anomalies detected.</td>
                   </tr>
-                  <tr className="border-b border-violet-100 hover:bg-violet-100 transition">
-                    <td className="px-4 py-2 font-medium">Office Supplies</td>
-                    <td className="px-4 py-2">Track closely — small items add up.</td>
+                  <tr className="border-b border-violet-100 hover:bg-violet-50 transition">
+                    <td className="px-3 py-2 font-medium">Office Supplies</td>
+                    <td className="px-3 py-2">Track closely — small items add up.</td>
                   </tr>
-                  <tr className="hover:bg-violet-100 transition">
-                    <td className="px-4 py-2 font-medium">AI Recommendation</td>
-                    <td className="px-4 py-2">Automate recurring expense alerts to identify trends faster.</td>
+                  <tr className="hover:bg-violet-50 transition">
+                    <td className="px-3 py-2 font-medium">AI Recommendation</td>
+                    <td className="px-3 py-2">Automate recurring expense alerts to identify trends faster.</td>
                   </tr>
                 </tbody>
               </table>
@@ -342,6 +365,7 @@ export function Expenses({
           </div>
         </div>
       )}
+
     </div>
   );
 }
