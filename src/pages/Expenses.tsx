@@ -10,7 +10,10 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { MoreVertical, ChevronDown, Download } from "lucide-react";
+
+import { useState } from "react";
+
+import { MoreVertical, ChevronDown, Download, X, Cpu } from "lucide-react";
 
 type ExpenseItem = { category: string; amount: number };
 
@@ -39,6 +42,8 @@ export function Expenses({
   );
 
   const currency = (v: number) => `₹${v.toLocaleString("en-IN")}`;
+
+  const [showModal, setShowModal] = useState(false);
 
   const downloadCSV = () => {
     const header = ["Category", "Amount"];
@@ -243,31 +248,100 @@ export function Expenses({
           </tbody>
         </table>
       </div>
+      {/* AI Insights Card */}
+      {/* AI Insights Card */}
+      <div className="bg-gradient-to-r from-violet-50 to-violet-100 p-6 rounded-2xl shadow-lg border border-violet-200">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-bold text-violet-800 flex items-center gap-2">
+            <Cpu size={20} className="text-violet-600" /> AI Expense Insights
+          </h3>
 
-      {/* AI Insights */}
-      <div className="bg-gradient-to-r from-red-50 to-orange-100 p-6 rounded-2xl shadow border border-red-200">
-        <h3 className="text-lg font-bold text-gray-900 mb-4">
-          🤖 AI Expense Insights
-        </h3>
-        <ul className="list-disc pl-6 text-gray-700 space-y-2">
+          {/* Only the icon triggers the modal */}
+          <span
+            onClick={() => setShowModal(true)}
+            className="inline-flex items-center gap-2 text-violet-700 text-sm cursor-pointer px-3 py-1 rounded-full border border-violet-300 hover:border-violet-600 hover:shadow-[0_0_10px_rgba(139,92,246,0.5)] transition-all duration-300"
+          >
+            <Cpu size={16} className="text-violet-600" /> AI Insights
+          </span>
+        </div>
+
+        {/* Brief insights */}
+        <ul className="list-disc pl-6 text-violet-800 mt-4 space-y-2">
           <li>
-            <strong>Salaries</strong> form the largest recurring expense each
-            month — consider forecasting for headcount changes.
+            <strong>Salaries:</strong> form the largest recurring expense each month — consider forecasting for headcount changes.
           </li>
           <li>
-            <strong>Travel</strong> costs are above average → implement travel
-            policy & pre-approval to reduce costs.
+            <strong>Travel:</strong> costs are above average → implement travel policy & pre-approval to reduce costs.
           </li>
           <li>
-            <strong>Rent & Utilities</strong> are stable → no anomalies detected
-            this period.
+            <strong>Rent & Utilities:</strong> are stable → no anomalies detected this period.
           </li>
           <li>
-            AI suggests tracking <strong>Office Supplies</strong> more closely;
-            small line items can accumulate.
+            AI suggests tracking <strong>Office Supplies</strong> more closely; small line items can accumulate.
           </li>
         </ul>
       </div>
+
+      {/* Modal for Detailed Insights */}
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          {/* Overlay */}
+          <div
+            className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-30"
+            onClick={() => setShowModal(false)}
+          />
+
+          {/* Modal Content */}
+          <div className="relative bg-white w-[90%] sm:w-[70%] md:w-[60%] lg:w-[50%] p-6 rounded-2xl shadow-2xl z-50 max-h-[80vh] overflow-y-auto border border-violet-200">
+            {/* Header */}
+            <div className="flex justify-between items-center mb-6 border-b border-violet-100 pb-3">
+              <h2 className="text-2xl font-bold text-violet-800 flex items-center gap-3">
+                <Cpu size={28} className="text-violet-600" /> AI Expense Insights
+              </h2>
+              <button
+                onClick={() => setShowModal(false)}
+                className="p-2 rounded-full hover:bg-violet-50 text-violet-600 hover:text-violet-800 transition"
+              >
+                <X size={24} />
+              </button>
+            </div>
+
+            {/* Table Layout for Insights */}
+            <div className="overflow-x-auto">
+              <table className="w-full table-auto border-collapse">
+                <thead>
+                  <tr className="bg-violet-50 border-b border-violet-100">
+                    <th className="text-left text-violet-700 font-semibold px-4 py-2">Category</th>
+                    <th className="text-left text-violet-700 font-semibold px-4 py-2">Insight</th>
+                  </tr>
+                </thead>
+                <tbody className="text-violet-800">
+                  <tr className="border-b border-violet-100 hover:bg-violet-100 transition">
+                    <td className="px-4 py-2 font-medium">Salaries</td>
+                    <td className="px-4 py-2">Highest recurring expense. Forecast for hiring or attrition.</td>
+                  </tr>
+                  <tr className="border-b border-violet-100 hover:bg-violet-100 transition">
+                    <td className="px-4 py-2 font-medium">Travel</td>
+                    <td className="px-4 py-2">Above average — implement travel approval workflow.</td>
+                  </tr>
+                  <tr className="border-b border-violet-100 hover:bg-violet-100 transition">
+                    <td className="px-4 py-2 font-medium">Rent & Utilities</td>
+                    <td className="px-4 py-2">Stable this period, no anomalies detected.</td>
+                  </tr>
+                  <tr className="border-b border-violet-100 hover:bg-violet-100 transition">
+                    <td className="px-4 py-2 font-medium">Office Supplies</td>
+                    <td className="px-4 py-2">Track closely — small items add up.</td>
+                  </tr>
+                  <tr className="hover:bg-violet-100 transition">
+                    <td className="px-4 py-2 font-medium">AI Recommendation</td>
+                    <td className="px-4 py-2">Automate recurring expense alerts to identify trends faster.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -17,6 +17,9 @@ import {
   Zap,
 } from 'lucide-react';
 
+import InvoiceGenerator from '../InvoiceGenerator/InvoiceGenerator';
+
+
 import {
   ResponsiveContainer,
   LineChart,
@@ -27,6 +30,8 @@ import {
   Tooltip,
   Legend,
 } from 'recharts';
+
+import DashboardHeader from './DashboardHeader';
 
 interface AIInsight {
   id: string;
@@ -57,7 +62,9 @@ export function Dashboard() {
   const [chartData, setChartData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [festival, setFestival] = useState<{ title: string; message: string } | null>(null);
-  const [voiceDraft, setVoiceDraft] = useState<string | null>(null);
+  const [voiceDraft, setVoiceDraft] = useState<string | null>(null)
+
+  const [showInvoice, setShowInvoice] = useState(false);
 
   useEffect(() => {
     loadDashboardData();
@@ -207,7 +214,7 @@ export function Dashboard() {
 
   const statCards = [
     {
-      title:  'Total Revenue',
+      title: 'Total Revenue',
       value: `₹${stats.totalRevenue.toLocaleString()}`,
       icon: TrendingUp,
       color: 'text-green-600 bg-green-100',
@@ -231,6 +238,23 @@ export function Dashboard() {
       color: 'text-red-600 bg-red-100',
     },
   ];
+  type ActionType = "newInvoice" | "reminders" | "reorder";
+
+  const handleAction = (action: ActionType) => {
+    switch (action) {
+      case "newInvoice":
+        setShowInvoice(true); // ✅ show invoice
+        break;
+      case "reminders":
+        alert("Open reminders");
+        break;
+      case "reorder":
+        alert("Open reorder suggestions");
+        break;
+    }
+  };
+
+
 
   return (
     <div className="space-y-6">
@@ -354,25 +378,46 @@ export function Dashboard() {
 
       {/* AI Insights */}
       {insights.length > 0 && (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-          <div className="p-6 border-b border-gray-200 flex items-center gap-2">
-            <Activity className="w-5 h-5 text-blue-600" />
-            <h2 className="text-lg font-semibold text-gray-900">AI Insights</h2>
-            <span className="ml-auto text-xs text-gray-500">Updated just now</span>
+  <div className="bg-white rounded-2xl shadow-md border border-violet-200 transition hover:shadow-lg">
+    {/* Header */}
+    <div className="p-6 border-b border-violet-100 flex items-center gap-3">
+      <Activity className="w-6 h-6 text-violet-600" />
+      <h2 className="text-lg font-semibold text-slate-900">AI Insights</h2>
+      <span className="ml-auto text-xs px-2 py-1 rounded-full bg-violet-50 text-violet-700 font-medium">
+        Updated just now
+      </span>
+    </div>
+
+    {/* Insights list */}
+    <div className="p-6 space-y-4">
+      {insights.map((insight) => (
+        <div
+          key={insight.id}
+          className={`flex items-start gap-4 p-4 rounded-xl border-l-4 transition hover:shadow-sm ${
+            insight.type === "warn"
+              ? "bg-yellow-50 border-yellow-400"
+              : "bg-white border-violet-400"
+          }`}
+        >
+          {/* Badge Icon */}
+          <div
+            className={`mt-1 flex h-10 w-10 items-center justify-center rounded-xl ${
+              insight.type === "warn"
+                ? "bg-yellow-100 text-yellow-700"
+                : "bg-violet-100 text-violet-700"
+            }`}
+          >
+            <Activity className="w-5 h-5" />
           </div>
-          <div className="p-6 space-y-4">
-            {insights.map((insight) => (
-              <div
-                key={insight.id}
-                className={`p-4 rounded-lg border-l-4 ${insight.type === 'warn' ? 'bg-yellow-50 border-yellow-400' : 'bg-blue-50 border-blue-400'
-                  }`}
-              >
-                <p className="text-sm text-gray-700">{insight.message}</p>
-              </div>
-            ))}
-          </div>
+
+          {/* Message */}
+          <p className="text-sm leading-relaxed text-slate-800">{insight.message}</p>
         </div>
-      )}
+      ))}
+    </div>
+  </div>
+)}
+
 
       {/* Recent Activity */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200">
@@ -405,7 +450,7 @@ export function Dashboard() {
       {/* Footer quick actions */}
       <div className="flex flex-wrap gap-3">
         <button
-          onClick={() => alert("Create invoice flow")}
+          onClick={() => setShowInvoice(true)}
           className="flex items-center gap-2 px-4 py-2 rounded-lg bg-violet-600 text-white font-medium shadow hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-400 transition"
           aria-label="Create new invoice"
         >
@@ -414,7 +459,7 @@ export function Dashboard() {
         </button>
 
         <button
-          onClick={() => alert("Open reminders")}
+          onClick={() => handleAction("reminders")}
           className="flex items-center gap-2 px-4 py-2 rounded-lg bg-violet-50 text-violet-700 font-medium hover:bg-violet-100 focus:outline-none focus:ring-2 focus:ring-violet-200 transition"
           aria-label="Send reminders"
         >
@@ -423,7 +468,7 @@ export function Dashboard() {
         </button>
 
         <button
-          onClick={() => alert("Open reorder suggestions")}
+          onClick={() => handleAction("reorder")}
           className="flex items-center gap-2 px-4 py-2 rounded-lg bg-violet-50 text-violet-700 font-medium hover:bg-violet-100 focus:outline-none focus:ring-2 focus:ring-violet-200 transition"
           aria-label="Reorder suggestions"
         >
@@ -431,6 +476,21 @@ export function Dashboard() {
           Reorder
         </button>
       </div>
+
+      {/* Invoice Generator Modal */}
+      {showInvoice && (
+        <div className="absolute inset-0 flex items-center justify-center z-10">
+          {/* Semi-transparent overlay */}
+          <div
+            className="absolute inset-0 bg-black bg-opacity-20 backdrop-blur-sm rounded-2xl"
+            onClick={() => setShowInvoice(false)}
+          />
+          {/* Centered modal */}
+          <div className="relative bg-white w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] p-4 rounded-2xl shadow-xl overflow-y-auto z-20 mt-10">
+            <InvoiceGenerator onClose={() => setShowInvoice(false)} />
+          </div>
+        </div>
+      )}
 
     </div>
   );
