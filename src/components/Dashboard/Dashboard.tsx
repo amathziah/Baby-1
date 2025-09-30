@@ -17,6 +17,8 @@ import {
   Zap,
 } from 'lucide-react';
 
+import { motion } from "framer-motion";
+
 import InvoiceGenerator from '../InvoiceGenerator/InvoiceGenerator';
 
 
@@ -48,6 +50,8 @@ interface AIInsight {
  * - KPI badges, quick actions, export buttons
  * - Minor performance / accessibility improvements
  */
+
+
 export function Dashboard() {
   const { t } = useLanguage();
   const [stats, setStats] = useState<DashboardStats>({
@@ -330,57 +334,94 @@ export function Dashboard() {
         </div>
 
         {/* Quick Stats */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 space-y-4">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 space-y-3">
+          {/* Header */}
           <div className="flex justify-between items-center">
-            <h2 className="text-lg font-semibold text-gray-900">Quick Stats</h2>
+            <h2 className="text-base font-medium text-gray-800">Quick Stats</h2>
             <div className="flex items-center gap-2">
+              {/* Copy Revenue */}
               <button
                 onClick={() => navigator.clipboard?.writeText(`${stats.totalRevenue}`)}
-                className="text-sm px-2 py-1 rounded-md bg-gray-50 border"
+                className="flex items-center gap-1 text-xs px-2 py-1 rounded-lg bg-gray-50 border hover:bg-gray-100 transition"
+                title="Copy total revenue"
               >
-                Copy Revenue
+                💰 Copy
               </button>
+
+              {/* Voice Invoice */}
               <button
                 onClick={() => setVoiceDraft(null) || startVoiceInvoice()}
-                className="text-sm px-2 py-1 rounded-md bg-blue-50 border"
+                className="flex items-center gap-1 text-xs px-2 py-1 rounded-lg bg-blue-50 border text-blue-700 hover:bg-blue-100 transition"
                 aria-label="Start voice invoice"
               >
-                <Mic className="w-4 h-4 inline-block mr-1" /> Voice Invoice
+                <Mic className="w-3 h-3" /> Voice
               </button>
             </div>
           </div>
 
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600">Low Stock Items</span>
-            <span className={`font-semibold ${stats.lowStockItems > 0 ? 'text-red-600' : 'text-green-600'}`}>
-              {stats.lowStockItems}
-            </span>
+          {/* Stats Rows */}
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600">Low Stock</span>
+              <span
+                className={`font-semibold ${stats.lowStockItems > 0 ? 'text-red-600' : 'text-green-600'
+                  }`}
+              >
+                {stats.lowStockItems}
+              </span>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600">Customers</span>
+              <span className="font-semibold text-gray-900">
+                {dataService.getCustomers().length}
+              </span>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600">Inventory</span>
+              <span className="font-semibold text-gray-900">
+                {dataService.getProducts().length}
+              </span>
+            </div>
           </div>
 
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600">Total Customers</span>
-            <span className="font-semibold text-gray-900">{dataService.getCustomers().length}</span>
-          </div>
-
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600">Products in Inventory</span>
-            <span className="font-semibold text-gray-900">{dataService.getProducts().length}</span>
-          </div>
-
-          {/* Festival prompt */}
+          {/* Festival Campaign Prompt */}
           {festival && (
-            <div className="mt-4 p-3 rounded-md bg-yellow-50 border border-yellow-100">
-              <div className="text-sm font-semibold">{festival.title}</div>
-              <div className="text-xs text-gray-700">{festival.message}</div>
-              <div className="mt-3 flex gap-2">
-                <button onClick={() => alert('Campaign applied — edit in campaigns page')} className="px-3 py-1 rounded bg-yellow-600 text-white text-sm">Apply</button>
-                <button onClick={() => alert('Open campaign editor')} className="px-3 py-1 rounded bg-white border text-sm">Edit</button>
+            <div className="mt-3 p-3 rounded-lg bg-yellow-50 border border-yellow-100">
+              <div className="flex justify-between items-center">
+                <div>
+                  <div className="text-xs font-semibold text-yellow-800">
+                    {festival.title}
+                  </div>
+                  <div className="text-xs text-gray-600">{festival.message}</div>
+                </div>
+                <span className="text-[10px] bg-yellow-200 px-2 py-0.5 rounded-full font-medium text-yellow-900">
+                  Promo
+                </span>
+              </div>
+
+              <div className="mt-2 flex gap-2">
+                <button
+                  onClick={() =>
+                    alert('Campaign applied — edit in campaigns page')
+                  }
+                  className="px-2 py-1 text-xs rounded-md bg-yellow-600 text-white hover:bg-yellow-700 transition"
+                >
+                  Apply
+                </button>
+                <button
+                  onClick={() => alert('Open campaign editor')}
+                  className="px-2 py-1 text-xs rounded-md bg-white border text-gray-700 hover:bg-gray-50 transition"
+                >
+                  Edit
+                </button>
               </div>
             </div>
           )}
-
         </div>
       </div>
+
 
       {/* AI Insights */}
       {insights.length > 0 && (
@@ -400,15 +441,15 @@ export function Dashboard() {
               <div
                 key={insight.id}
                 className={`flex items-start gap-4 p-4 rounded-xl border-l-4 transition hover:shadow-sm ${insight.type === "warn"
-                    ? "bg-yellow-50 border-yellow-400"
-                    : "bg-white border-violet-400"
+                  ? "bg-yellow-50 border-yellow-400"
+                  : "bg-white border-violet-400"
                   }`}
               >
                 {/* Badge Icon */}
                 <div
                   className={`mt-1 flex h-10 w-10 items-center justify-center rounded-xl ${insight.type === "warn"
-                      ? "bg-yellow-100 text-yellow-700"
-                      : "bg-violet-100 text-violet-700"
+                    ? "bg-yellow-100 text-yellow-700"
+                    : "bg-violet-100 text-violet-700"
                     }`}
                 >
                   <Activity className="w-5 h-5" />
@@ -424,29 +465,66 @@ export function Dashboard() {
 
 
       {/* Recent Activity */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-        <div className="p-6 border-b border-gray-200">
+      <div className="bg-white rounded-xl shadow-md border border-gray-200">
+        {/* Header */}
+        <div className="p-5 border-b border-gray-200 flex justify-between items-center">
           <h2 className="text-lg font-semibold text-gray-900">Recent Activity</h2>
+          <button className="text-xs text-violet-600 hover:underline">
+            View All
+          </button>
         </div>
-        <div className="p-6 max-h-96 overflow-y-auto space-y-4">
+
+        {/* Activity List */}
+        <div className="p-5 max-h-96 overflow-y-auto space-y-2">
           {stats.recentActivity.map((activity, index) => (
-            <div key={index} className="flex items-center space-x-3">
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05 }}
+              className="grid grid-cols-[auto,1fr,auto] items-center gap-3 p-2 rounded-md 
+                       hover:bg-violet-50 hover:shadow-sm transition cursor-pointer"
+            >
+              {/* Icon with tooltip */}
               <div
-                className={`p-2 rounded-full ${activity.type === 'payment' ? 'bg-green-100' : 'bg-blue-100'
-                  }`}
+                className="relative group p-1.5 rounded-full bg-violet-100 flex items-center justify-center"
+                title={activity.type === "payment" ? "Payment" : "Invoice"}
               >
-                {activity.type === 'payment' ? (
-                  <IndianRupee className="w-4 h-4 text-green-600" />
+                {activity.type === "payment" ? (
+                  <IndianRupee className="w-4 h-4 text-violet-600" />
                 ) : (
-                  <FileText className="w-4 h-4 text-blue-600" />
+                  <FileText className="w-4 h-4 text-violet-600" />
                 )}
+
+                {/* Status dot */}
+                <span
+                  className={`absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full ${activity.status === "success"
+                    ? "bg-green-500"
+                    : "bg-violet-500"
+                    }`}
+                />
               </div>
-              <div className="flex-1">
-                <p className="text-sm text-gray-900">{activity.description}</p>
-                <p className="text-xs text-gray-500">{activity.date.toLocaleDateString()}</p>
+
+              {/* Details */}
+              <div className="min-w-0">
+                <p className="text-xs font-medium text-gray-900 truncate">
+                  {activity.description}
+                </p>
+                <div className="flex items-center gap-2">
+                  <p className="text-[10px] text-gray-500">
+                    {activity.date.toLocaleDateString()}
+                  </p>
+                  <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-violet-100 text-violet-700 font-medium">
+                    {activity.type === "payment" ? "Payment" : "Invoice"}
+                  </span>
+                </div>
               </div>
-              <span className="text-sm font-medium text-gray-900">₹{activity.amount.toLocaleString()}</span>
-            </div>
+
+              {/* Amount */}
+              <span className="text-xs font-semibold text-violet-700 whitespace-nowrap">
+                ₹{activity.amount.toLocaleString()}
+              </span>
+            </motion.div>
           ))}
         </div>
       </div>
